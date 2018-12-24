@@ -5,6 +5,7 @@ namespace PhpTravels.UITests.Components
     using _ = HotelsPage;
 
     [Url("/hotels")]
+    [WaitForElement(WaitBy.Css, "div.pace-active", Until.VisibleThenMissingOrHidden, TriggerEvents.Init)]
     public class HotelsPage : Page<_>
     {
         public Button<HotelEditPage, _> Add { get; private set; }
