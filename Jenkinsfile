@@ -1,3 +1,5 @@
+def isFailed = false;
+
 node('master') {
     stage('Checkout'){
         git 'https://github.com/mehhrunes/atata-phptravels-uitests.git'
@@ -11,7 +13,19 @@ node('master') {
 		bat '"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\MSBuild\\15.0\\Bin\\MSBuild.exe" src/PhpTravels.UITests.sln'
 	}
 	
-	stage('Run Tests'){
-		bat '"C:\\Dev\\ConsoleRunner\\nunit3-console.exe" src\\PhpTravels.UITests\\bin\\Debug\\PhpTravels.UITests.dll'
+	catchError{
+		isFailed = true;
+		stage('Run Tests'){
+			bat '"C:\\Dev\\ConsoleRunner\\nunit3-console.exe" src\\PhpTravels.UITests\\bin\\Debug\\PhpTravels.UITests.dll'
+		}
+		isFailed = false;
+	}
+	
+	stage('Reporting'){
+		if(isFailed){
+			slackSend color: 'danger', message: 'Tests failed.'
+		}else{
+			slackSend color: 'good', message: 'Tests passed.'
+		}
 	}
 }
