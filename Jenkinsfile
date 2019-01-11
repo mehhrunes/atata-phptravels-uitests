@@ -4,7 +4,7 @@ properties([
 	])
 ])
 
-def isFailed = false;
+def isFailed = false
 def branch = params.branchName
 def buildArtifactsFolder = "C:\\BuildPackagesFromPipeline\\$BULID_ID"
 currentBuild.description = "Branch: $branch"
@@ -51,7 +51,7 @@ catchError{
 			}
 		}
 	}
-	isFailed = false;
+	isFailed = false
 }
 
 node('master'){
