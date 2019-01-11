@@ -34,11 +34,11 @@ catchError{
 		stage('Run Tests'){
 			parallel FirstTest: {
 				node('master'){
-					bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe" $buildArtifactsFolder\\PhpTravels.UITests.dll --where cat==FirstTest"
+					bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe" $buildArtifactsFolder/PhpTravels.UITests.dll --where cat==FirstTest"
 				}
 			}, SecondTest: {
 				node('Slave'){
-					bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe" $buildArtifactsFolder\\PhpTravels.UITests.dll --where cat==SecondTest"
+					bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe" $buildArtifactsFolder/PhpTravels.UITests.dll --where cat==SecondTest"
 				}
 			}
 			bat '"C:\\Dev\\ConsoleRunner\\nunit3-console.exe" src\\PhpTravels.UITests\\bin\\Debug\\PhpTravels.UITests.dll'
