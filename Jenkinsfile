@@ -1,6 +1,6 @@
 properties([
 	parameters([
-		string (name: 'branchName', defaultValue: 'master', description; 'Branch to get the test from')
+		string (name: 'branchName', defaultValue: 'master', description: 'Branch to get the test from')
 	])
 ])
 
@@ -10,7 +10,8 @@ currentBuild.description = "Branch: $branch"
 
 node('master') {
     stage('Checkout'){
-        git 'https://github.com/mehhrunes/atata-phptravels-uitests.git'
+        git branch: branch, url: 'https://github.com/mehhrunes/atata-phptravels-uitests.git'
+
     }
     
     stage('Restore NuGet'){
