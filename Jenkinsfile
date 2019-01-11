@@ -9,6 +9,15 @@ def branch = params.branchName
 def buildArtifactsFolder = "C:\\BuildPackagesFromPipeline\\$BULID_ID"
 currentBuild.description = "Branch: $branch"
 
+def RunNUnitTests(String pathToDll, String condition, String reportName){
+	try{
+		bat "C:\Dev\ConsoleRunner\nunit3-console.exe $pathToDll $condition --result=$reportName" 
+	}finally{
+		stash name: reportName, includes: reportName
+	}
+	
+}
+
 node('master') {
     stage('Checkout'){
         git branch: branch, url: 'https://github.com/mehhrunes/atata-phptravels-uitests.git'
@@ -30,18 +39,17 @@ node('master') {
 }
 
 catchError{
-		isFailed = true;
+		isFailed = true
 		stage('Run Tests'){
 			parallel FirstTest: {
 				node('master'){
-					bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe" $buildArtifactsFolder/PhpTravels.UITests.dll --where cat==FirstTest"
+					RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")					
 				}
 			}, SecondTest: {
 				node('Slave'){
-					bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe" $buildArtifactsFolder/PhpTravels.UITests.dll --where cat==SecondTest"
+					RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult12.xml")
 				}
 			}
-			bat '"C:\\Dev\\ConsoleRunner\\nunit3-console.exe" src\\PhpTravels.UITests\\bin\\Debug\\PhpTravels.UITests.dll'
 		}
 		isFailed = false;
 }
