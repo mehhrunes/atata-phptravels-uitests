@@ -68,11 +68,11 @@ node('master')
 
         if(isFailed)
         {
-            slackSend color: 'danger', message: 'Tests failed.'
+            slackSend color: 'danger', message: 'Test run failed | ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)'
         }
         else
         {
-            slackSend color: 'good', message: 'Tests passed.'
+            slackSend color: 'good', message: 'Test run passed | ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)'
         }
     }
 }
