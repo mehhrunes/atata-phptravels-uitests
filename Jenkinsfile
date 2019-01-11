@@ -47,7 +47,7 @@ catchError{
 				}
 			}, SecondTest: {
 				node('Slave'){
-					RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult12.xml")
+					RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult12.xml")
 				}
 			}
 		}
@@ -56,6 +56,13 @@ catchError{
 
 node('master'){
 	stage('Reporting'){
+		
+		unstash "TestResult1.xml"
+		unstash "TestResult2.xml"
+		
+		archiveArtifacts '*.xml'
+		nunit testResultsPattern: 'TestResult1.xml, TestResult2.xml'
+	
 		if(isFailed){
 			slackSend color: 'danger', message: 'Tests failed.'
 		}else{
