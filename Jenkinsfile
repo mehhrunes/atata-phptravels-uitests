@@ -38,35 +38,41 @@ node('master') {
 	
 }
 
-catchError{
-	isFailed = true
-	stage('Run Tests'){
-		parallel FirstTest: {
-			node('master'){
-				RunNUnitTests("$buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")					
-			}
-		}, SecondTest: {
-			node('Slave'){
-				RunNUnitTests("$buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult12.xml")
-			}
-		}
-	}
-	isFailed = false
+catchError
+{
+    isFailed = true
+    stage('Run Tests')
+    {
+        parallel FirstTest: {
+            node('master') {
+                RunNUnitTests("$buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")
+            }
+        }, SecondTest: {
+            node('Slave') {
+                RunNUnitTests("$buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult2.xml")
+            }
+        }
+    }
+    isFailed = false
 }
 
-node('master'){
-	stage('Reporting'){
-		
-		unstash "TestResult1.xml"
-		unstash "TestResult2.xml"
-		
-		archiveArtifacts '*.xml'
-		nunit testResultsPattern: 'TestResult1.xml, TestResult2.xml'
-	
-		if(isFailed){
-			slackSend color: 'danger', message: 'Tests failed.'
-		}else{
-			slackSend color: 'good', message: 'Tests passed.'
-		}
-	}
+node('master')
+{
+    stage('Reporting')
+    {
+        unstash "TestResult1.xml"
+        unstash "TestResult2.xml"
+
+        archiveArtifacts '*.xml'
+        nunit testResultsPattern: 'TestResult1.xml, TestResult2.xml'
+
+        if(isFailed)
+        {
+            slackSend color: 'danger', message: 'Tests failed.'
+        }
+        else
+        {
+            slackSend color: 'good', message: 'Tests passed.'
+        }
+    }
 }
