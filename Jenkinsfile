@@ -3,7 +3,7 @@ node('master') {
         git 'https://github.com/mehhrunes/atata-phptravels-uitests.git'
     }
     
-    stage('Second Stage'){
-        echo "Yo2"
+    stage('Restore NuGet'){
+        bat '"C:\\Dev\\nuget.exe" restore src/PhpTravels.UITests.sln'
     }
 }
