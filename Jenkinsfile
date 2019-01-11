@@ -43,11 +43,11 @@ catchError{
 	stage('Run Tests'){
 		parallel FirstTest: {
 			node('master'){
-				RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")					
+				RunNUnitTests("$buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")					
 			}
 		}, SecondTest: {
 			node('Slave'){
-				RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult12.xml")
+				RunNUnitTests("$buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult12.xml")
 			}
 		}
 	}
