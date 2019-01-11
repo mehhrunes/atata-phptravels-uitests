@@ -11,7 +11,7 @@ currentBuild.description = "Branch: $branch"
 
 def RunNUnitTests(String pathToDll, String condition, String reportName){
 	try{
-		bat "C:\Dev\ConsoleRunner\nunit3-console.exe $pathToDll $condition --result=$reportName" 
+		bat "C:\\Dev\\ConsoleRunner\\nunit3-console.exe $pathToDll $condition --result=$reportName" 
 	}finally{
 		stash name: reportName, includes: reportName
 	}
@@ -39,19 +39,19 @@ node('master') {
 }
 
 catchError{
-		isFailed = true
-		stage('Run Tests'){
-			parallel FirstTest: {
-				node('master'){
-					RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")					
-				}
-			}, SecondTest: {
-				node('Slave'){
-					RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult12.xml")
-				}
+	isFailed = true
+	stage('Run Tests'){
+		parallel FirstTest: {
+			node('master'){
+				RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==FirstTest", "TestResult1.xml")					
+			}
+		}, SecondTest: {
+			node('Slave'){
+				RunNUnitTests($buildArtifactsFolder/PhpTravels.UITests.dll", "--where cat==SecondTest", "TestResult12.xml")
 			}
 		}
-		isFailed = false;
+	}
+	isFailed = false;
 }
 
 node('master'){
