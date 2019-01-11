@@ -41,7 +41,7 @@ catchError{
 		isFailed = false;
 }
 
-node('master){
+node('master'){
 	stage('Reporting'){
 		if(isFailed){
 			slackSend color: 'danger', message: 'Tests failed.'
