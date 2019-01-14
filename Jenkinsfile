@@ -37,7 +37,7 @@ node('master') {
 	
 	stage('Copy Artifacts'){
 		//bat "(robocopy src/PhpTravels.UITests/bin/Debug $buildArtifactsFolder /MIR /XO) ^& IF %ERRORLEVEL% LEQ 1 exit 0"
-        powershell ".\\build.ps1 CopyArtifacts -BuildArtifactsFolder $buildArtifactsFolder"
+        powershell ".\\build.ps1 CopyArtifacts -OutputPath $artifactsToCopy -BuildArtifactsFolder $buildArtifactsFolder"
     }
 	
 }
