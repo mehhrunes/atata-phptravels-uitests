@@ -110,8 +110,8 @@ foreach ($Task in $TaskList) {
     }
 }
 
-if ($Host.Name -eq "ConsoleHost")
-{
-    Write-Host "Press any key to continue..."
-    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
-}
+# if ($Host.Name -eq "ConsoleHost")
+# {
+#     Write-Host "Press any key to continue..."
+#     $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
+# }
