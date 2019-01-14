@@ -66,7 +66,6 @@ Function BuildSolution()
 }
 Function CopyBuildArtifacts()
 {
-    $Error.Clear()
     param
     (
         [Parameter(Mandatory)]
@@ -89,10 +88,8 @@ Function CopyBuildArtifacts()
     #
     #           which will get items (Get-ChildItem) and will copy them (Copy-Item) to the target folder
 
-    Copy-Item -Force -Recurse -Verbose $SourceFolder -Destination $DestinationFolder
-    
-    if($Error){
-        Throw "An error occured while copying build artifacts."
+    if(Test-Path $SourceFolder){
+        Copy-Item -Force -Recurse -Verbose $SourceFolder -Destination $DestinationFolder
     }
 }
 
