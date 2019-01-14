@@ -66,7 +66,6 @@ Function BuildSolution()
 }
 Function CopyBuildArtifacts()
 {
-    $ErrorActionPreference = "Stop"
     param
     (
         [Parameter(Mandatory)]
