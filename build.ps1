@@ -51,7 +51,7 @@ Function RestoreNuGetPackages()
     # NuGet.exe call here
     & $NugetExe restore $Solution
     if($LASTEXITCODE -ne 0){
-        Throw "An error occured while restoring nuget packages"
+        Throw "An error occured while restoring nuget packages."
     }
 }
 
@@ -61,11 +61,12 @@ Function BuildSolution()
     # MSBuild.exe call here
     & $MSBuild $Solution /p:Configuration=$Configuration /p:Platform=$Platform
     if($LASTEXITCODE -ne 0){
-        Throw "An error occured while building solution"
+        Throw "An error occured while building solution."
     }
 }
 Function CopyBuildArtifacts()
 {
+    $Error.Clear()
     param
     (
         [Parameter(Mandatory)]
@@ -91,7 +92,9 @@ Function CopyBuildArtifacts()
     if(Test-Path $SourceFolder){
         Copy-Item -Force -Recurse -Verbose $SourceFolder -Destination $DestinationFolder
     }
-    
+    if($Error){
+        Throw "An error occured while copying build artifacts."
+    }
 }
 
 foreach ($Task in $TaskList) {
