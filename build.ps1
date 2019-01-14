@@ -89,7 +89,7 @@ Function CopyBuildArtifacts()
     #           which will get items (Get-ChildItem) and will copy them (Copy-Item) to the target folder
 
     if(Test-Path $SourceFolder){
-        Copy-Item -Force -Recurse -Verbose -Destination $DestinationFolder
+        Copy-item -Force -Recurse -Verbose $SourceFolder -Destination $DestinationFolder
     }
 }
 
