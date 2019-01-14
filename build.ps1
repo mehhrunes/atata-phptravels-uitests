@@ -59,8 +59,7 @@ Function BuildSolution()
 {
     Write-Output "Building '$Solution' solution..."
     # MSBuild.exe call here
-    #Invoke-Expression $MSBuild $Solution /p:Configuration=$Configuration /p:Platform=$Platform /p:OutputPath=$OutputPath
-    & $MSBuild $Solution
+    & $MSBuild $Solution /p:Configuration=$Configuration /p:Platform=$Platform
     if($LASTEXITCODE -ne 0){
         Throw "An error occured while building solution"
     }
@@ -111,8 +110,8 @@ foreach ($Task in $TaskList) {
     }
 }
 
-if ($Host.Name -eq "ConsoleHost")
-{
-    Write-Host "Press any key to continue..."
-    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
-}
+# if ($Host.Name -eq "ConsoleHost")
+# {
+#     Write-Host "Press any key to continue..."
+#     $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
+# }
