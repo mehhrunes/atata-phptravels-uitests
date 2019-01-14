@@ -50,6 +50,9 @@ Function RestoreNuGetPackages()
     Write-Output 'Restoring NuGet packages...'
     # NuGet.exe call here
     & $NugetExe restore $Solution
+    if($LASTEXITCODE -ne 0){
+        Throw "An error occured while restoring nuget packages"
+    }
 }
 
 Function BuildSolution()
@@ -58,9 +61,13 @@ Function BuildSolution()
     # MSBuild.exe call here
     #Invoke-Expression $MSBuild $Solution /p:Configuration=$Configuration /p:Platform=$Platform /p:OutputPath=$OutputPath
     & $MSBuild $Solution
+    if($LASTEXITCODE -ne 0){
+        Throw "An error occured while building solution"
+    }
 }
 Function CopyBuildArtifacts()
 {
+    $ErrorActionPreference = "Stop"
     param
     (
         [Parameter(Mandatory)]
@@ -104,8 +111,8 @@ foreach ($Task in $TaskList) {
     }
 }
 
-# if ($Host.Name -eq "ConsoleHost")
-# {
-#     Write-Host "Press any key to continue..."
-#     $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
-# }
+if ($Host.Name -eq "ConsoleHost")
+{
+    Write-Host "Press any key to continue..."
+    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
+}
