@@ -89,7 +89,9 @@ Function CopyBuildArtifacts()
     #           which will get items (Get-ChildItem) and will copy them (Copy-Item) to the target folder
 
     if(Test-Path $SourceFolder){
-        Copy-Item -Force -Recurse -Verbose $SourceFolder -Destination $DestinationFolder
+        # Copy-Item -Force -Recurse -Verbose $SourceFolder -Destination $DestinationFolder
+        Get-ChildItem $SourceFolder | Copy-Item -Force -Recurse -Destination $DestinationFolder
+
     }
 }
 
@@ -108,8 +110,8 @@ foreach ($Task in $TaskList) {
     }
 }
 
-# if ($Host.Name -eq "ConsoleHost")
-# {
-#     Write-Host "Press any key to continue..."
-#     $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
-# }
+if ($Host.Name -eq "ConsoleHost")
+{
+    Write-Host "Press any key to continue..."
+    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp") > $null
+}
