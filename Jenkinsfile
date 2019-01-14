@@ -7,7 +7,7 @@ properties([
 def isFailed = false
 def branch = params.branchName
 def artifactsToCopy = "src/PhpTravels.UITests/bin/Debug"
-def buildArtifactsFolder = "C:\\BuildPackagesFromPipeline\\$BUILD_ID"
+def buildArtifactsFolder = "C:\\Dev\\PowershellBuildArtifacts" //"C:\\BuildPackagesFromPipeline\\$BUILD_ID" 
 currentBuild.description = "Branch: $branch"
 
 def RunNUnitTests(String pathToDll, String condition, String reportName){
